@@ -188,6 +188,19 @@ describe('#Routes', () => {
             expect(params.response.end).toHaveBeenCalled()
         })
 
-        test.todo('should respond with 404 when given an error')
+        test('should respond with 500 when given an error', async () => {
+            const params = TestUtil.defaultHandleParams()
+            params.request.method = 'GET'
+            params.request.url = '/index.png'
+            jest.spyOn(
+                Controller.prototype,
+                Controller.prototype.getFileStream.name
+            ).mockRejectedValue(new Error('an error'))
+
+            await handler(...params.values())
+
+            expect(params.response.writeHead).toHaveBeenCalledWith(500)
+            expect(params.response.end).toHaveBeenCalled()
+        })
     })
 })
