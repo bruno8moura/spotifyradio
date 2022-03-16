@@ -146,6 +146,32 @@ describe('#Routes', () => {
         expect(params.response.writeHead).not.toHaveBeenCalledWith()
     })
 
+    test(`GET /unknown - should response with 404 when given an inexistent route`, async () => {
+        const params = TestUtil.defaultHandleParams()
+        const filename = 'unknown'
+        const requestUrl = `/${filename}`
+        params.request.method = 'POST'
+        params.request.url = requestUrl
+        const mockFileStream = TestUtil.generateReadableStream(['data'])
+
+        jest.spyOn(
+            Controller.prototype,
+            Controller.prototype.getFileStream.name,
+        ).mockResolvedValue({
+            stream: mockFileStream,
+        })
+        
+        jest.spyOn(
+            mockFileStream,
+            'pipe'
+        ).mockReturnValue()
+
+        await handler(...params.values())
+
+        expect(params.response.writeHead).toHaveBeenCalledWith(404)
+        expect(params.response.end).toHaveBeenCalledWith()
+    })
+
     describe('exceptions', () => {
         test.todo('should respond with 404 when given inexistent file')
         test.todo('should respond with 404 when given an error')
