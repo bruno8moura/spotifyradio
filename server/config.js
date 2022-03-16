@@ -22,5 +22,15 @@ export default {
     },
     location: {
         home: '/home'
+    },
+    constants: {
+        CONTENT_TYPE: {
+            '.html': 'text/html',
+            '.css': 'text/css',
+            '.js': 'text/javascript',
+            '.png': 'image/png',
+            '.jpg': 'image/jpeg',
+            '.jpeg': 'image/jpeg'
+        }
     }
 }
