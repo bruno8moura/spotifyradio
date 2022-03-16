@@ -34,6 +34,18 @@ async function routes(request, response) {
         return stream.pipe(response)
     }
 
+    if(method === 'GET' && url === '/controller') {
+        const {
+            stream,
+        } = await controller.getFileStream(controllerHTML)
+
+        // response.writeHead( 200, {
+        //     'Content-Type': 'text/html'
+        // })
+
+        return stream.pipe(response)
+    }
+
     return response.end('hello')
 }
 
