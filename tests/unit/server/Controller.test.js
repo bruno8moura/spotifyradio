@@ -27,6 +27,19 @@ describe.only('#Controller', () => {
 
         expect(Service.prototype.getFileStream).toHaveBeenCalled()
     })
-    test.todo('should call "service.getFileStream" function with para "filename"')
+    test('should call "service.getFileStream" function with para "filename"', async () => {
+        const expected = 'any file'
+        jest.spyOn(
+            Service.prototype,
+            Service.prototype.getFileStream.name
+        ).mockResolvedValue({
+            stream: TestUtil.generateReadableStream()
+        })
+
+        await new Controller().getFileStream(expected)
+
+        expect(Service.prototype.getFileStream).toHaveBeenCalled()
+        expect(Service.prototype.getFileStream).toHaveBeenCalledWith(expected)
+    })
     test.todo('should return objects "stream" and "types"')
 })
