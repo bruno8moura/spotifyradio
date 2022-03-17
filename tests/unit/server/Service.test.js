@@ -70,7 +70,12 @@ describe('#Service', () => {
         expect(joinSpy).toHaveBeenCalledWith( publicDir, expected )
     })
 
-    test.todo('should throws exception when file path from param "file" doesnt exist')
+    test.only('should throws exception when file path from param "file" doesnt exist', async () => {
+        const sut = new Service()        
+        const promise = sut.getFileInfo('file_not_exists')
+        expect( promise ).rejects.toThrow()
+    })
+
     test.todo('should returns an object with properties type(file type), name(full file path) ')
 
     test.todo('should use param "file" within function "getFileStream"')
