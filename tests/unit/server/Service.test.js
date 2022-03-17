@@ -90,6 +90,25 @@ describe('#Service', () => {
         expect(result).toHaveProperty('type', expectedFileType)
     })
 
-    test.todo('should use param "file" within function "getFileStream"')
+    test('should use param "file" within function "getFileStream"', async () => {
+        const stream = TestUtil.generateReadableStream(['data'])
+        const file = 'file.ext'
+
+        jest.spyOn(
+            Service.prototype,
+            Service.prototype.getFileInfo.name
+        ).mockResolvedValue({ name: 'file', type: '.ext'})
+
+        jest.spyOn(
+            Service.prototype,
+            Service.prototype.createFileStream.name
+        ).mockResolvedValue({ stream, type: '.ext'})
+
+        const sut = new Service()
+        const result = await sut.getFileStream(file)
+
+        expect(Service.prototype.getFileInfo).toHaveBeenCalledWith(file)
+    })
+
     test.todo('should returns an object with properties type(file type), stream(readable stream) ')
 })
