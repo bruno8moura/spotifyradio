@@ -14,6 +14,17 @@ import { Service } from '../../../server/Service.js'
 
 import { Readable } from 'stream'
 
+import path from 'path'
+import fsPromises from 'fs/promises'
+
+import config from '../../../server/config.js'
+
+const {
+    dir: {
+        publicDir
+    }
+} = config
+
 describe('#Service', () => {
     beforeEach(() => {
         jest.restoreAllMocks()
@@ -46,7 +57,19 @@ describe('#Service', () => {
         expect(result).toBeInstanceOf(Readable)
     })
 
-    test.todo('should use param "file" within function "getFileInfo"')
+    test('should use param "file" within function "getFileInfo"', async () => {
+        const expected = 'any_file'
+        
+        const joinSpy = jest.spyOn(path, 'join')
+        jest.spyOn(path, 'extname')
+        jest.spyOn( fsPromises, 'access' ).mockReturnValue(true)
+        
+        const sut = new Service()
+        await sut.getFileInfo(expected)
+
+        expect(joinSpy).toHaveBeenCalledWith( publicDir, expected )
+    })
+
     test.todo('should throws exception when file path from param "file" doesnt exist')
     test.todo('should returns an object with properties type(file type), name(full file path) ')
 
