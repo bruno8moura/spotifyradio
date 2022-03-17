@@ -16,7 +16,7 @@ const {
         CONTENT_TYPE
     }
 } = config
-describe.only('#Controller', () => {
+describe('#Controller', () => {
     beforeEach(() => {
         jest.restoreAllMocks()
         jest.clearAllMocks()
