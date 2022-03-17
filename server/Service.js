@@ -8,7 +8,7 @@ const { dir:{
 } } = config
 
 export class Service {
-    createFileStream(filename) {
+    async createFileStream(filename) {
         return fs.createReadStream(filename)
     }
 
@@ -34,7 +34,7 @@ export class Service {
           } = await this.getFileInfo(file)
 
         return {
-            stream: this.createFileStream(name),
+            stream: await this.createFileStream(name),
             type
         }
     }

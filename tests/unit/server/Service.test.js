@@ -40,7 +40,7 @@ describe('#Service', () => {
             'createReadStream'
         ).mockReturnValue()
 
-        sut.createFileStream(expected)
+        await sut.createFileStream(expected)
         expect(fs.createReadStream).toHaveBeenCalledWith(expected)
     })
 
@@ -53,7 +53,7 @@ describe('#Service', () => {
             'createReadStream'
         ).mockReturnValue(expected)
 
-        const result = sut.createFileStream('any_filename')
+        const result = await sut.createFileStream('any_filename')
         expect(result).toBeInstanceOf(Readable)
     })
 
@@ -110,7 +110,7 @@ describe('#Service', () => {
         expect(Service.prototype.getFileInfo).toHaveBeenCalledWith(file)
     })
 
-    test.only('should returns an object with properties type(file type), stream(readable stream)', async () => {
+    test('should returns an object with properties type(file type), stream(readable stream)', async () => {
         const stream = TestUtil.generateReadableStream(['data'])
         const fileName = 'file'
         const fileType = '.ext'
