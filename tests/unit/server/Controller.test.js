@@ -9,6 +9,13 @@ import { Controller } from '../../../server/Controller'
 import { Service } from '../../../server/Service'
 import TestUtil from '../_util/TestUtil'
 
+import config from '../../../server/config.js'
+
+const {
+    constants: {
+        CONTENT_TYPE
+    }
+} = config
 describe.only('#Controller', () => {
     beforeEach(() => {
         jest.restoreAllMocks()
@@ -41,5 +48,22 @@ describe.only('#Controller', () => {
         expect(Service.prototype.getFileStream).toHaveBeenCalled()
         expect(Service.prototype.getFileStream).toHaveBeenCalledWith(expected)
     })
-    test.todo('should return objects "stream" and "types"')
+    test('should return objects "stream" and "type"', async () => {
+        const anyContentType = '.html'
+        const expected = 'any file'
+        
+        jest.spyOn(
+            Service.prototype,
+            Service.prototype.getFileStream.name
+        ).mockResolvedValue({
+            stream: TestUtil.generateReadableStream(),
+            type: CONTENT_TYPE[anyContentType]
+        })
+
+        const result = await new Controller().getFileStream(expected)
+
+        expect(result).toBeDefined()
+        expect(result).toHaveProperty('stream')
+        expect(result).toHaveProperty('type')
+    })
 })
