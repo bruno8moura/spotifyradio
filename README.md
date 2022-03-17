@@ -1,10 +1,5 @@
-# Spotify Radio - Semana JS Expert 6.0
+# Spotify Radio
 
-Seja bem vindo(a) à sexta Semana Javascript Expert. Este é o código inicial para iniciar nossa jornada.
-
-Marque esse projeto com uma estrela 🌟
-
-Acesse a [**comunidade exclusiva no discord**](https://bit.ly/semanajsexpert-discord) para tirar suas dúvidas e conhecer pessoas: 
 ## Preview
 
 <img src="./prints/demo.png" />
