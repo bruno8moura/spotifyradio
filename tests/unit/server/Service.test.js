@@ -110,5 +110,34 @@ describe('#Service', () => {
         expect(Service.prototype.getFileInfo).toHaveBeenCalledWith(file)
     })
 
-    test.todo('should returns an object with properties type(file type), stream(readable stream) ')
+    test.only('should returns an object with properties type(file type), stream(readable stream)', async () => {
+        const stream = TestUtil.generateReadableStream(['data'])
+        const fileName = 'file'
+        const fileType = '.ext'
+
+        const expectedFileInfo = { name: fileName, type: fileType }
+
+        const file = fileName.concat(fileType)
+
+        const expectedResult = {
+            stream,
+            type: fileType
+        }
+
+        jest.spyOn(
+            Service.prototype,
+            Service.prototype.getFileInfo.name
+        ).mockResolvedValue(expectedFileInfo)
+
+        jest.spyOn(
+            Service.prototype,
+            Service.prototype.createFileStream.name
+        ).mockResolvedValue(stream)
+
+        const sut = new Service()
+        const result = await sut.getFileStream(file)
+
+        expect(result).toBeDefined()
+        expect(result).toStrictEqual(expectedResult)
+    })
 })
