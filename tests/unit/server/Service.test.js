@@ -6,11 +6,15 @@ import {
     expect
 } from '@jest/globals'
 
+import TestUtil from '../_util/TestUtil.js'
+
 import fs from 'fs'
 
 import { Service } from '../../../server/Service.js'
 
-describe.only('#Service', () => {
+import { Readable } from 'stream'
+
+describe('#Service', () => {
     beforeEach(() => {
         jest.restoreAllMocks()
         jest.clearAllMocks()
@@ -29,7 +33,18 @@ describe.only('#Service', () => {
         expect(fs.createReadStream).toHaveBeenCalledWith(expected)
     })
 
-    test.todo('should return a ReadableStream - function "createFileStream"')
+    test('should return a Readable object', async () => {
+        const expected = TestUtil.generateReadableStream(['data'])
+        const sut = new Service()
+
+        jest.spyOn(
+            fs,
+            'createReadStream'
+        ).mockReturnValue(expected)
+
+        const result = sut.createFileStream('any_filename')
+        expect(result).toBeInstanceOf(Readable)
+    })
 
     test.todo('should use param "file" within function "getFileInfo"')
     test.todo('should throws exception when file path from param "file" doesnt exist')
