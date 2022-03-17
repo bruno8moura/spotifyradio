@@ -70,13 +70,25 @@ describe('#Service', () => {
         expect(joinSpy).toHaveBeenCalledWith( publicDir, expected )
     })
 
-    test.only('should throws exception when file path from param "file" doesnt exist', async () => {
-        const sut = new Service()        
+    test('should throws exception when file path from param "file" doesnt exist', async () => {
+        const sut = new Service()    
         const promise = sut.getFileInfo('file_not_exists')
         expect( promise ).rejects.toThrow()
     })
 
-    test.todo('should returns an object with properties type(file type), name(full file path) ')
+    test('should returns an object with properties type(file type), name(full file path)', async () => {
+        const expectedFileType = '.ext'
+        const file = 'file'.concat(expectedFileType)
+        const expectedFileFullPath = publicDir.concat('/').concat(file)
+
+        jest.spyOn( fsPromises, 'access' ).mockReturnValue(true)
+        
+        const sut = new Service()
+        const result = await sut.getFileInfo(file)
+
+        expect(result).toHaveProperty('name', expectedFileFullPath)
+        expect(result).toHaveProperty('type', expectedFileType)
+    })
 
     test.todo('should use param "file" within function "getFileStream"')
     test.todo('should returns an object with properties type(file type), stream(readable stream) ')
